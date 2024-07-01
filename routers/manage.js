@@ -1,13 +1,13 @@
-const { param } = require('../app');
+
 const { createNewCustomer, existCustomer } = require('../modules/users')
 const express = require('express');
 
 const router = express.Router();
 
-router.post('/createCustomer', express.json(), (req, res) => {
+router.post('/createCustomer', express.json(), async(req, res) => {
     try {
       const customer=req.body();
-      const response=createNewCustomer(customer);
+      const response=await createNewCustomer(customer);
       res.status(200).json(response);
     }
     catch (error) {
@@ -21,10 +21,10 @@ router.post('/createCustomer', express.json(), (req, res) => {
     }
 })
 
-router.get('/checkusername:name',(req,res)=>{
+router.get('/checkusername:name',async(req,res)=>{
     try {
         const {name}=req.params;
-        const response=existCustomer(name);
+        const response=await existCustomer(name);
         res.status(200).json({exist:response});
       }
       catch (error) {
@@ -38,4 +38,4 @@ router.get('/checkusername:name',(req,res)=>{
       }
 })
 
-
+module.exports = router;

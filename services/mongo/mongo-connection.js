@@ -3,8 +3,9 @@ const { MongoClient } = require('mongodb');
 let client = null;
 
 async function openConnection(server) {
+    // console.log({ server });
     try {
-        client = MongoClient(server.trim())
+        client =new  MongoClient(server.trim())
         await client.connect()
     }
     catch (error) {
@@ -18,4 +19,4 @@ async function closeConnection() {
 
 const getClient = () => client
 
-module.exports={openConnection,getClient,closeConnection}
+module.exports = { openConnection, getClient, closeConnection }
