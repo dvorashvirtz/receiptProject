@@ -5,9 +5,6 @@ const { openConnection } = require('./services/mongo/mongo-connection')
 
 const { HOST, MONGO_DB_URL, PORT } = process.env
 
-// app.listen(PORT, HOST, () => {
-//     console.log(`http://${HOST}:${PORT}`);
-// })
 openConnection(MONGO_DB_URL).then(_ => {
     app.listen(PORT, HOST, () => {
         console.log(`http://${HOST}:${PORT}`);

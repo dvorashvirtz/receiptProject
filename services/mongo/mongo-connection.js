@@ -3,10 +3,18 @@ const { MongoClient } = require('mongodb');
 let client = null;
 
 async function openConnection(server) {
-    // console.log({ server });
+    if (server == undefined || server == null) {
+        throw new Error('server url is not defined')
+    }
+    if (typeof (server) !== 'string') {
+        throw new Error('server url must be type of string')
+    }
+    if (!server.trim().startsWith('mongodb://') && !server.trim().startsWith('mongodb+srv://')) {
+        throw new Error('server url must start with "mongodb://" or "mongodb+srv://"')
+    }
     try {
-        client =new  MongoClient(server.trim())
-        await client.connect()
+        client = new MongoClient(server.trim());
+        await client.connect();
     }
     catch (error) {
         throw error;
@@ -14,7 +22,7 @@ async function openConnection(server) {
 }
 
 async function closeConnection() {
-    await client.close();
+        await client.close();
 }
 
 const getClient = () => client

@@ -5,14 +5,14 @@ class MongoOprations {
         this.database = dbname;
     }
     set Collection(value) {
-        this.myCollection = getClient().db(this.database).Collection(value);
+        this.myCollection = getClient().db(this.database).collection(value);
     }
 
     get Collection() {
         return this.myCollection.collectionName;
     }
 
-    async inserItem(item) {
+    async insertItem(item) {
         const result = await this.myCollection.insertOne(item);
         return result;
     }

@@ -6,10 +6,10 @@ const { MONGO_RECEIPT_DB, MONGO_CUSTOMERS_COLLECTION } = process.env;
 
 const mongoOprations = new MongoOprations(MONGO_RECEIPT_DB)
 
-const existCustomer = async (username) => {
+const existCustomer = async (name) => {
     mongoOprations.Collection = MONGO_CUSTOMERS_COLLECTION;
     try {
-        const response = await mongoOprations.find({ filter: { username } })
+        const response = await mongoOprations.find({ filter: { name } })
         return response.length > 0;
     }
     catch (error) {
@@ -18,10 +18,10 @@ const existCustomer = async (username) => {
 }
 
 const createNewCustomer = async (customer) => {
-    const client = await existCustomer(customer.username);
+    const client = await existCustomer(customer.name);
     if (client) {
         const error = {
-            message: `username '${customer.username}' is not available`,
+            message: `the name '${customer.name}' is not available`,
             type: 422
         }
         throw error
@@ -30,7 +30,7 @@ const createNewCustomer = async (customer) => {
     customer.id = id;
     try {
         mongoOprations.Collection = MONGO_CUSTOMERS_COLLECTION;
-        const response=await mongoOprations.inserItem(customer);
+        await mongoOprations.insertItem(customer);
         return customer;
     }
     catch (error) {
